@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var viewmodel = ExchangeRateViewModel()
+    
+
     var body: some View {
         ZStack(alignment: .top) {
             Color(.black).opacity(0.9).ignoresSafeArea()
@@ -22,38 +25,40 @@ struct ContentView: View {
                         Spacer()
                         Image(systemName: "gear")
                     }.padding(10)
-                    .font(.largeTitle)
+                        .font(.largeTitle).foregroundColor(.white)
                     
                     VStack{// Main Currency
                         HStack{
                             Text("$")
                             Spacer()
-                            Text("8,650")
+                            Text(String(viewmodel.baseCurrencyRate))
                                 .font(.custom("mainCurrency", size: 45))
                             Spacer()
                             Image(systemName: "arrowtriangle.down")
                                 .font(.title2)
                         }
-                        Text("USD")
+                        Text(viewmodel.baseCurrency)
                             .font(.title3).foregroundColor(.gray)
-                    }
+                    }.foregroundColor(.white)
                     .font(.largeTitle)
                     .padding(30)
                     .fontWeight(.light)
                 }
                 .frame(minHeight: 80, maxHeight: 200)
-                .background(Color.accentColor.ignoresSafeArea())
-                .padding(.bottom, 30)
+                .background(
+                    LinearGradient(gradient: Gradient(colors: [.cyan.opacity(0.3), .white.opacity(0)]), startPoint: .top, endPoint: .bottom)
+                )
                 
                 
                 
-                SecondaryCurrencyView(currencyIcon: "€", currencyName: "Euro", amount: 7824)
-                SecondaryCurrencyView(currencyIcon: "₺", currencyName: "Lira", amount: 167291)
-                SecondaryCurrencyView(currencyIcon: "₽", currencyName: "Ruble", amount: 707463)
+                
+                SecondaryCurrencyView(currencyIcon: "€", currencyName: viewmodel.secondCurrency, amount: viewmodel.secondCurrencyRate)
+                SecondaryCurrencyView(currencyIcon: "₺", currencyName: viewmodel.thirdCurrency, amount: viewmodel.thirdCurrencyRate)
+                SecondaryCurrencyView(currencyIcon: "₽", currencyName: viewmodel.fourthCurrency, amount: viewmodel.fourthCurrencyRate)
                 
                 
 //                Button {
-//                    //Nothing yet
+//                    
 //                } label: {
 //                    Text("Add New Currency")
 //                        .font(.body)
@@ -86,6 +91,8 @@ struct ContentView: View {
                 .cornerRadius(30)
                 
             }
+        }.onAppear {
+            viewmodel.fetchExchangeRate()
         }
     }
 }
@@ -96,7 +103,7 @@ struct ContentView: View {
 struct SecondaryCurrencyView: View{
     var currencyIcon: String
     var currencyName: String
-    var amount: Int
+    var amount: Double
     var body: some View{
         HStack{
             HStack{
