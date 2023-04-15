@@ -1,23 +1,22 @@
 //
 //  CurrencyRateVM.swift
-//  CurrencyConvert
-//
-//  Created by Taha Tuna on 14.04.2023.
-//
+//  Currency Rate ViewModel - API Network Call
 
 import SwiftUI
 
 
 class ExchangeRateViewModel: ObservableObject {
     @Published var exchangeRate: ExchangeRate?
-    var baseCurrency = "PLN"
-    var baseCurrencyRate: Double = 88632.8
-    var secondCurrency = "EUR"
-    var secondCurrencyRate: Double = 0.0
-    var thirdCurrency = "TRY"
-    var thirdCurrencyRate: Double = 0.0
-    var fourthCurrency = "RUB"
-    var fourthCurrencyRate: Double = 0.0
+    
+    // Not very elegant, it is?
+    var baseCurrency = CurrencyData().baseCurrency
+    var baseCurrencyAmount = CurrencyData().baseCurrencyAmount
+    var secondCurrency = CurrencyData().secondCurrency
+    var secondCurrencyRate = CurrencyData().secondCurrencyRate
+    var thirdCurrency = CurrencyData().thirdCurrency
+    var thirdCurrencyRate = CurrencyData().thirdCurrencyRate
+    var fourthCurrency = CurrencyData().fourthCurrency
+    var fourthCurrencyRate = CurrencyData().fourthCurrencyRate
     
     let apiKey = ""
     
@@ -36,13 +35,13 @@ class ExchangeRateViewModel: ObservableObject {
                         self.exchangeRate = exchangeRate
                         
                         if let secondCurrencyRate = exchangeRate.data[self.secondCurrency] {
-                            self.secondCurrencyRate = self.baseCurrencyRate * secondCurrencyRate
+                            self.secondCurrencyRate = self.baseCurrencyAmount * secondCurrencyRate
                         }
                         if let thirdCurrencyRate = exchangeRate.data[self.thirdCurrency] {
-                            self.thirdCurrencyRate = self.baseCurrencyRate * thirdCurrencyRate
+                            self.thirdCurrencyRate = self.baseCurrencyAmount * thirdCurrencyRate
                         }
                         if let fourthCurrencyRate = exchangeRate.data[self.fourthCurrency] {
-                            self.fourthCurrencyRate = self.baseCurrencyRate * fourthCurrencyRate
+                            self.fourthCurrencyRate = self.baseCurrencyAmount * fourthCurrencyRate
                         }
                     }
                 }

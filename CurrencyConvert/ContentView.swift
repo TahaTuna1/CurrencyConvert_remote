@@ -31,7 +31,11 @@ struct ContentView: View {
                         HStack{
                             Text("$")
                             Spacer()
-                            Text(String(viewmodel.baseCurrencyRate))
+                            TextField("Amount", value: $viewmodel.baseCurrencyAmount, formatter: NumberFormatter())
+                                           .textFieldStyle(RoundedBorderTextFieldStyle())
+                                           .foregroundColor(.black)
+                                       
+                            Text(String(viewmodel.baseCurrencyAmount))
                                 .font(.custom("mainCurrency", size: 45))
                             Spacer()
                             Image(systemName: "arrowtriangle.down")
@@ -57,38 +61,40 @@ struct ContentView: View {
                 SecondaryCurrencyView(currencyIcon: "₽", currencyName: viewmodel.fourthCurrency, amount: viewmodel.fourthCurrencyRate)
                 
                 
-//                Button {
-//                    
-//                } label: {
-//                    Text("Add New Currency")
-//                        .font(.body)
-//                        .foregroundColor(.white)
-//                        .frame(width: 190, height: 70)
-//                        .background(Color.blue.opacity(0.1))
-//                        .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
-//                }
-                
-                VStack {
-                    Text("$ USD - Euro €").foregroundColor(.gray).padding(.top, 10)
-                    Spacer()
-                    Image("graphPlaceHolder")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(.bottom, 40)
-                        
+                Button {
+                    viewmodel.fetchExchangeRate()
+                    print(viewmodel.exchangeRate ?? "fail")
+                    print("Base Currency: \(viewmodel.baseCurrency)")
+                } label: {
+                    Text("Refresh Rates")
+                        .font(.body)
+                        .foregroundColor(.white)
+                        .frame(width: 190, height: 70)
+                        .background(Color.blue.opacity(0.1))
+                        .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
                 }
-                .frame(minWidth: 300, maxWidth: 370, minHeight: 100, maxHeight: 170)
-                .background(
-                    LinearGradient(
-                        gradient: Gradient(stops: [
-                            .init(color: Color.white.opacity(0.05), location: 0),
-                            .init(color: Color.white.opacity(0), location: 1)
-                        ]),
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    )
-                )
-                .cornerRadius(30)
+                // Graph
+//                VStack {
+//                    Text("$ USD - Euro €").foregroundColor(.gray).padding(.top, 10)
+//                    Spacer()
+//                    Image("graphPlaceHolder")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .padding(.bottom, 40)
+//
+//                }
+//                .frame(minWidth: 300, maxWidth: 370, minHeight: 100, maxHeight: 170)
+//                .background(
+//                    LinearGradient(
+//                        gradient: Gradient(stops: [
+//                            .init(color: Color.white.opacity(0.05), location: 0),
+//                            .init(color: Color.white.opacity(0), location: 1)
+//                        ]),
+//                        startPoint: .leading,
+//                        endPoint: .trailing
+//                    )
+//                )
+//                .cornerRadius(30)
                 
             }
         }.onAppear {
@@ -101,6 +107,7 @@ struct ContentView: View {
 
 
 struct SecondaryCurrencyView: View{
+    
     var currencyIcon: String
     var currencyName: String
     var amount: Double

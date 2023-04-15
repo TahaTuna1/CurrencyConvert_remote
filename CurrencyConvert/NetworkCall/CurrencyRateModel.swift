@@ -1,9 +1,6 @@
 //
 //  CurrencyRateModel.swift
-//  CurrencyConvert
-//
-//  Created by Taha Tuna on 14.04.2023.
-//
+//  CurrencyConvert Model
 
 import Foundation
 
@@ -12,25 +9,25 @@ struct ExchangeRate: Codable {
     let data: [String: Double]
 }
 
-struct CurrencyData {
-    var baseCurrency: String
-    var baseCurrencyRate: Double = 88632.8
-    var secondCurrency: String
-    var secondCurrencyRate: Double = 0.0
-    var thirdCurrency: String
-    var thirdCurrencyRate: Double = 0.0
-    var fourthCurrency: String
-    var fourthCurrencyRate: Double = 0.0
+class CurrencyData: ObservableObject {
+    @Published var baseCurrency: String
+    @Published var baseCurrencyAmount: Double
+    @Published var secondCurrency: String
+    @Published var secondCurrencyRate: Double
+    @Published var thirdCurrency: String
+    @Published var thirdCurrencyRate: Double
+    @Published var fourthCurrency: String
+    @Published var fourthCurrencyRate: Double
     
     init() {
         // Mock data
-        baseCurrency = "EUR"
-        baseCurrencyRate = 1.0
+        baseCurrency = "PLN"
+        baseCurrencyAmount = 214.9
         secondCurrency = "USD"
-        secondCurrencyRate = 0.9
+        secondCurrencyRate = 0.0
         thirdCurrency = "TRY"
-        thirdCurrencyRate = 0.11
+        thirdCurrencyRate = 0.0
         fourthCurrency = "RUB"
-        fourthCurrencyRate = 0.012
+        fourthCurrencyRate = 0.0
     }
 }
