@@ -10,7 +10,7 @@ import SwiftUI
 
 class ExchangeRateViewModel: ObservableObject {
     @Published var exchangeRate: ExchangeRate?
-    var baseCurrency = "HUF"
+    var baseCurrency = "PLN"
     var baseCurrencyRate: Double = 88632.8
     var secondCurrency = "EUR"
     var secondCurrencyRate: Double = 0.0
@@ -18,10 +18,12 @@ class ExchangeRateViewModel: ObservableObject {
     var thirdCurrencyRate: Double = 0.0
     var fourthCurrency = "RUB"
     var fourthCurrencyRate: Double = 0.0
-
-    let apiKey = "" 
+    
+    let apiKey = ""
+    
     func fetchExchangeRate() {
-        guard let url = URL(string: "https://api.freecurrencyapi.com/v1/latest?apikey=\(apiKey)&currencies=\(secondCurrency)%2C\(thirdCurrency)%2C\(fourthCurrency)&base_currency=\(baseCurrency)") else {
+        let currencies = "\(secondCurrency)%2C\(thirdCurrency)%2C\(fourthCurrency)"
+        guard let url = URL(string: "https://api.freecurrencyapi.com/v1/latest?apikey=\(apiKey)&currencies=\(currencies)&base_currency=\(baseCurrency)") else {
             fatalError("Invalid URL")
         }
         

@@ -11,7 +11,7 @@ struct ContentView: View {
     @ObservedObject var viewmodel = ExchangeRateViewModel()
     
 
-    var body: some View {
+    var body: some View { 
         ZStack(alignment: .top) {
             Color(.black).opacity(0.9).ignoresSafeArea()
             
