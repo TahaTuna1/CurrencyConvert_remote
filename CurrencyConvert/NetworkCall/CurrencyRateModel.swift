@@ -23,7 +23,7 @@ class CurrencyData: ObservableObject {
         // Mock data
         baseCurrency = "PLN"
         baseCurrencyAmount = 214.9
-        secondCurrency = "USD"
+        secondCurrency = "EUR"
         secondCurrencyRate = 0.0
         thirdCurrency = "TRY"
         thirdCurrencyRate = 0.0

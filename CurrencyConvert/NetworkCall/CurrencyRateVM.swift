@@ -43,6 +43,7 @@ class ExchangeRateViewModel: ObservableObject {
                         if let fourthCurrencyRate = exchangeRate.data[self.fourthCurrency] {
                             self.fourthCurrencyRate = self.baseCurrencyAmount * fourthCurrencyRate
                         }
+                        
                     }
                 }
             }
