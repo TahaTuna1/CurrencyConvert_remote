@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Currency: Codable {
+class Currency: Codable, ObservableObject {
     let symbol: String
     let name: String
     let symbolNative: String

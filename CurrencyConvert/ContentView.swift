@@ -34,7 +34,7 @@ struct ContentView: View {
                                 .font(.custom("baseCurrency", size: 50))
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.white)
-                                .shadow(color: .cyan, radius: 1, x: 2, y:2)
+                                .shadow(color: .red, radius: 1, x: 2, y:2)
                             
                             Spacer()
                             Image(systemName: "arrowtriangle.down")
@@ -49,7 +49,7 @@ struct ContentView: View {
                 }
                 .frame(minHeight: 80, maxHeight: 200)
                 .background(
-                    LinearGradient(gradient: Gradient(colors: [.cyan.opacity(0.3), .white.opacity(0)]), startPoint: .top, endPoint: .bottom)
+                    LinearGradient(gradient: Gradient(colors: [.indigo.opacity(1)]), startPoint: .top, endPoint: .bottom)
                 )
                 
                 
@@ -75,18 +75,7 @@ struct ContentView: View {
                         .background(Color.blue.opacity(0.1))
                         .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
                 }
-                Button {
-                    viewmodel.fetchSymbols()
-                    print(viewmodel.baseCurrencySymbol)
-                    
-                } label: {
-                    Text("Refresh Symbol")
-                        .font(.body)
-                        .foregroundColor(.white)
-                        .frame(width: 190, height: 40)
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
-                }
+                
                 
                 
                 HStack{
@@ -134,6 +123,7 @@ struct ContentView: View {
             }
         }.onAppear {// NO LONGER FETCHING DATA ON LAUNCH FOR TESTING PURPOSES!!!
             print("On launch, Base Currency: \(viewmodel.baseCurrency)")
+            viewmodel.fetchSymbols()
         }
     }
 }
