@@ -7,15 +7,20 @@ import SwiftUI
 
 class ExchangeRateViewModel: ObservableObject {
     @Published var exchangeRate: ExchangeRate?
-    
+    @Published var isLoading = false
+    @Published var currencies: [Currency] = []
     // Not very elegant, it is?
     var baseCurrency = CurrencyData().baseCurrency
+    var baseCurrencySymbol = CurrencyData().baseCurrencySymbol
     var baseCurrencyAmount = CurrencyData().baseCurrencyAmount
     var secondCurrency = CurrencyData().secondCurrency
+    var secondCurrencySymbol = CurrencyData().secondCurrencySymbol
     var secondCurrencyRate = CurrencyData().secondCurrencyRate
     var thirdCurrency = CurrencyData().thirdCurrency
+    var thirdCurrencySymbol = CurrencyData().thirdCurrencySymbol
     var thirdCurrencyRate = CurrencyData().thirdCurrencyRate
     var fourthCurrency = CurrencyData().fourthCurrency
+    var fourthCurrencySymbol = CurrencyData().fourthCurrencySymbol
     var fourthCurrencyRate = CurrencyData().fourthCurrencyRate
     
     let apiKey = ""
@@ -43,8 +48,46 @@ class ExchangeRateViewModel: ObservableObject {
                         if let fourthCurrencyRate = exchangeRate.data[self.fourthCurrency] {
                             self.fourthCurrencyRate = self.baseCurrencyAmount * fourthCurrencyRate
                         }
-                        
+                        self.isLoading = false
                     }
+                }
+            }
+        }.resume()
+    }
+    
+    func fetchSymbols() {
+        
+        guard let url = URL(string: "https://api.freecurrencyapi.com/v1/currencies?apikey=\(apiKey)&currencies=") else {
+            fatalError("Invalid URL")
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                return
+            }
+            DispatchQueue.main.async {
+                do {
+                    let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
+                    
+                    self.currencies = Array(response.data.values)
+                    print(self.currencies)
+                    
+                    if let matchingCurrency = self.currencies.first(where: { $0.code == self.baseCurrency }) {
+                        self.baseCurrencySymbol = matchingCurrency.symbolNative
+                        print(self.baseCurrencySymbol)
+                    }
+                    if let matchingCurrency = self.currencies.first(where: { $0.code == self.secondCurrency }) {
+                        self.secondCurrencySymbol = matchingCurrency.symbolNative
+                    }
+                    if let matchingCurrency = self.currencies.first(where: { $0.code == self.thirdCurrency }) {
+                        self.thirdCurrencySymbol = matchingCurrency.symbolNative
+                    }
+                    if let matchingCurrency = self.currencies.first(where: { $0.code == self.fourthCurrency }) {
+                        self.fourthCurrencySymbol = matchingCurrency.symbolNative
+                    }
+                    
+                } catch {
+                    print(error.localizedDescription)
                 }
             }
         }.resume()

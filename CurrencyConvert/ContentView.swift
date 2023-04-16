@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewmodel = ExchangeRateViewModel()
-    @State var isLoading = false
+    
+    
     var body: some View {
         ZStack(alignment: .top) {
             Color(.black).opacity(0.9).ignoresSafeArea()
-            
             
             VStack {
                 VStack {
@@ -28,7 +28,7 @@ struct ContentView: View {
                     
                     VStack{// Main Currency View.
                         HStack{
-                            Text("$")
+                            Text(viewmodel.baseCurrencySymbol)
                             Spacer()
                             TextField("How much?", value: $viewmodel.baseCurrencyAmount, formatter: NumberFormatter())
                                 .font(.custom("baseCurrency", size: 50))
@@ -55,22 +55,35 @@ struct ContentView: View {
                 
                 
                 
-                SecondaryCurrencyView(isLoading: $isLoading, currencyIcon: "€", currencyName: viewmodel.secondCurrency, amount: viewmodel.secondCurrencyRate)
-                SecondaryCurrencyView(isLoading: $isLoading, currencyIcon: "₺", currencyName: viewmodel.thirdCurrency, amount: viewmodel.thirdCurrencyRate)
-                SecondaryCurrencyView(isLoading: $isLoading, currencyIcon: "₽", currencyName: viewmodel.fourthCurrency, amount: viewmodel.fourthCurrencyRate)
+                SecondaryCurrencyView(isLoading: $viewmodel.isLoading, currencyIcon: viewmodel.secondCurrencySymbol, currencyName: viewmodel.secondCurrency, amount: viewmodel.secondCurrencyRate)
+                SecondaryCurrencyView(isLoading: $viewmodel.isLoading, currencyIcon: viewmodel.thirdCurrencySymbol, currencyName: viewmodel.thirdCurrency, amount: viewmodel.thirdCurrencyRate)
+                SecondaryCurrencyView(isLoading: $viewmodel.isLoading, currencyIcon: viewmodel.fourthCurrencySymbol, currencyName: viewmodel.fourthCurrency, amount: viewmodel.fourthCurrencyRate)
                 
                 
                 Button {
-                    isLoading = true
+                    viewmodel.isLoading = true
                     viewmodel.fetchExchangeRate()
+                    
                     print("Base Currency: \(viewmodel.baseCurrencyAmount) \(viewmodel.baseCurrency)")
                     print(viewmodel.exchangeRate ?? "Failed. Something's wrong.")
-                    isLoading = false
+                    
                 } label: {
                     Text("Refresh Rates")
                         .font(.body)
                         .foregroundColor(.white)
-                        .frame(width: 190, height: 70)
+                        .frame(width: 190, height: 40)
+                        .background(Color.blue.opacity(0.1))
+                        .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
+                }
+                Button {
+                    viewmodel.fetchSymbols()
+                    print(viewmodel.baseCurrencySymbol)
+                    
+                } label: {
+                    Text("Refresh Symbol")
+                        .font(.body)
+                        .foregroundColor(.white)
+                        .frame(width: 190, height: 40)
                         .background(Color.blue.opacity(0.1))
                         .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
                 }
@@ -131,6 +144,7 @@ struct smallCurrencyView: View{ // For the bottom
     var amount: Double
     var fontSize: CGFloat
     var body: some View{
+        
         Text("\(NumberFormatter.localizedString(from: NSNumber(value: amount), number: .decimal)) \(currency)").font(.system(size: fontSize))
     }
 }
@@ -158,7 +172,7 @@ struct SecondaryCurrencyView: View{ // Smaller Currencies
                 if isLoading{
                     LoadingView()
                 }else{
-                    Text(currencyIcon + NumberFormatter.localizedString(from: NSNumber(value: amount), number: .decimal))
+                    Text(NumberFormatter.localizedString(from: NSNumber(value: amount), number: .decimal))
                         .font(.title)
                 }
             }
