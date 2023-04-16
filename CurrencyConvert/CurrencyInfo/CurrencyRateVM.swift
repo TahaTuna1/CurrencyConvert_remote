@@ -1,6 +1,6 @@
 //
 //  CurrencyRateVM.swift
-//  Currency Rate ViewModel - API Network Call
+//  Currency Rate ViewModel - API Network Call + Read Local JSON
 
 import SwiftUI
 
@@ -8,22 +8,72 @@ import SwiftUI
 class ExchangeRateViewModel: ObservableObject {
     @Published var exchangeRate: ExchangeRate?
     @Published var isLoading = false
-    @Published var currencies: [Currency] = []
-    // Not very elegant, it is?
-    var baseCurrency = CurrencyData().baseCurrency
-    var baseCurrencySymbol = CurrencyData().baseCurrencySymbol
-    var baseCurrencyAmount = CurrencyData().baseCurrencyAmount
-    var secondCurrency = CurrencyData().secondCurrency
-    var secondCurrencySymbol = CurrencyData().secondCurrencySymbol
-    var secondCurrencyRate = CurrencyData().secondCurrencyRate
-    var thirdCurrency = CurrencyData().thirdCurrency
-    var thirdCurrencySymbol = CurrencyData().thirdCurrencySymbol
-    var thirdCurrencyRate = CurrencyData().thirdCurrencyRate
-    var fourthCurrency = CurrencyData().fourthCurrency
-    var fourthCurrencySymbol = CurrencyData().fourthCurrencySymbol
-    var fourthCurrencyRate = CurrencyData().fourthCurrencyRate
+    @Published var allCurrencies: [Currency] = []
+    @Published var baseCurrencySelection: String = ""
     
-    let apiKey = "" 
+    @ObservedObject var currencyData = CurrencyData()
+    //Still not elegant at all
+    var baseCurrency: String {
+        get { currencyData.baseCurrency }
+        set { currencyData.baseCurrency = newValue }
+    }
+    
+    var baseCurrencySymbol: String {
+        get { currencyData.baseCurrencySymbol }
+        set { currencyData.baseCurrencySymbol = newValue }
+    }
+    
+    var baseCurrencyAmount: Double {
+        get { currencyData.baseCurrencyAmount }
+        set { currencyData.baseCurrencyAmount = newValue }
+    }
+    
+    var secondCurrency: String {
+        get { currencyData.secondCurrency }
+        set { currencyData.secondCurrency = newValue }
+    }
+    
+    var secondCurrencySymbol: String {
+        get { currencyData.secondCurrencySymbol }
+        set { currencyData.secondCurrencySymbol = newValue }
+    }
+    
+    var secondCurrencyRate: Double {
+        get { currencyData.secondCurrencyRate }
+        set { currencyData.secondCurrencyRate = newValue }
+    }
+    
+    var thirdCurrency: String {
+        get { currencyData.thirdCurrency }
+        set { currencyData.thirdCurrency = newValue }
+    }
+    
+    var thirdCurrencySymbol: String {
+        get { currencyData.thirdCurrencySymbol }
+        set { currencyData.thirdCurrencySymbol = newValue }
+    }
+    
+    var thirdCurrencyRate: Double {
+        get { currencyData.thirdCurrencyRate }
+        set { currencyData.thirdCurrencyRate = newValue }
+    }
+    
+    var fourthCurrency: String {
+        get { currencyData.fourthCurrency }
+        set { currencyData.fourthCurrency = newValue }
+    }
+    
+    var fourthCurrencySymbol: String {
+        get { currencyData.fourthCurrencySymbol }
+        set { currencyData.fourthCurrencySymbol = newValue }
+    }
+    
+    var fourthCurrencyRate: Double {
+        get { currencyData.fourthCurrencyRate }
+        set { currencyData.fourthCurrencyRate = newValue }
+    }
+    
+    let apiKey = ""
     
     func fetchExchangeRate() {
         let currencies = "\(secondCurrency)%2C\(thirdCurrency)%2C\(fourthCurrency)"
@@ -48,11 +98,15 @@ class ExchangeRateViewModel: ObservableObject {
                         if let fourthCurrencyRate = exchangeRate.data[self.fourthCurrency] {
                             self.fourthCurrencyRate = self.baseCurrencyAmount * fourthCurrencyRate
                         }
+                        self.baseCurrencySelection = self.baseCurrency
+                        print("Base Currency: \(self.baseCurrencyAmount) \(self.baseCurrency)")
+                        print(self.exchangeRate ?? "Failed")
                         self.isLoading = false
                     }
                 }
             }
         }.resume()
+        
     }
     
     func fetchSymbols() {
@@ -62,36 +116,37 @@ class ExchangeRateViewModel: ObservableObject {
                 let data = try Data(contentsOf: url)
                 let response = try JSONDecoder().decode(ExchangeRateResponse.self, from: data)
                 
+                
                 DispatchQueue.main.async {
-                    // Get the base currency symbol
+                    
+                    self.allCurrencies.removeAll()
+                    for currency in response.data.values {
+                        self.allCurrencies.append(currency)
+                    }
+                    self.allCurrencies.sort { $0.name < $1.name }
+                    
                     if let symbol = response.data[self.baseCurrency]?.symbolNative {
                         self.baseCurrencySymbol = symbol
-                        
                     }
                     
-                    // Get the second currency symbol
                     if let symbol = response.data[self.secondCurrency]?.symbolNative {
                         self.secondCurrencySymbol = symbol
-                        
                     }
                     
-                    // Get the third currency symbol
                     if let symbol = response.data[self.thirdCurrency]?.symbolNative {
                         self.thirdCurrencySymbol = symbol
                     }
                     
-                    // Get the fourth currency symbol
                     if let symbol = response.data[self.fourthCurrency]?.symbolNative {
                         self.fourthCurrencySymbol = symbol
                     }
                     self.objectWillChange.send()
+                    
                 }
                 
             } catch {
                 print(error.localizedDescription)
             }
         }
-        
-        
     }
 }

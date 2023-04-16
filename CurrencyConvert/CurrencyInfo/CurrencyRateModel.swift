@@ -9,7 +9,8 @@ struct ExchangeRate: Codable {
     let data: [String: Double]
 }
 
-class CurrencyData: ObservableObject {
+class CurrencyData: ObservableObject { // Maybe combine?
+    
     @Published var baseCurrency: String
     @Published var baseCurrencySymbol: String
     @Published var baseCurrencyAmount: Double
@@ -37,5 +38,6 @@ class CurrencyData: ObservableObject {
         fourthCurrency = "RUB"
         fourthCurrencySymbol = "?"
         fourthCurrencyRate = 0.0
+        
     }
 }

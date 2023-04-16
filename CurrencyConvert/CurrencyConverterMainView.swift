@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CurrencyConverterMainView.swift
 //  CurrencyConvert
 //
 //  Created by Taha Tuna on 13.04.2023.
@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @ObservedObject var viewmodel = ExchangeRateViewModel()
-    
+struct CurrencyConverterMainView: View {
+    @ObservedObject var viewModel = ExchangeRateViewModel()
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -28,19 +27,22 @@ struct ContentView: View {
                     
                     VStack{// Main Currency View.
                         HStack{
-                            Text(viewmodel.baseCurrencySymbol)
+                            Text(viewModel.baseCurrencySymbol)
                             Spacer()
-                            TextField("How much?", value: $viewmodel.baseCurrencyAmount, formatter: NumberFormatter())
+                            TextField("How much?", value: $viewModel.baseCurrencyAmount, formatter: NumberFormatter())
                                 .font(.custom("baseCurrency", size: 50))
                                 .multilineTextAlignment(.center)
                                 .foregroundColor(.white)
                                 .shadow(color: .red, radius: 1, x: 2, y:2)
                             
                             Spacer()
-                            Image(systemName: "arrowtriangle.down")
-                                .font(.title2)
+                            
+                            VStack {
+                                Image(systemName: "arrowtriangle.down")
+                                    .font(.title2)
+                            }
                         }
-                        Text(viewmodel.baseCurrency)
+                        Text(viewModel.baseCurrency)
                             .font(.title3).foregroundColor(.gray)
                     }.foregroundColor(.white)
                         .font(.largeTitle)
@@ -52,21 +54,33 @@ struct ContentView: View {
                     LinearGradient(gradient: Gradient(colors: [.indigo.opacity(1)]), startPoint: .top, endPoint: .bottom)
                 )
                 
+                //Picker
+                Group {
+                    
+                    Picker("Choose a Currency", selection: $viewModel.baseCurrencySelection) {
+                        ForEach(viewModel.allCurrencies, id: \.code) { currency in
+                            Text("\(currency.symbolNative) - \(currency.code)")
+                        }
+                    }
+                }
+                .onChange(of: viewModel.baseCurrencySelection) { newValue in
+                    viewModel.baseCurrency = newValue
+                    viewModel.isLoading = true
+                    viewModel.fetchExchangeRate()
+                    viewModel.fetchSymbols()
+                }
                 
                 
                 
-                SecondaryCurrencyView(isLoading: $viewmodel.isLoading, currencyIcon: viewmodel.secondCurrencySymbol, currencyName: viewmodel.secondCurrency, amount: viewmodel.secondCurrencyRate)
-                SecondaryCurrencyView(isLoading: $viewmodel.isLoading, currencyIcon: viewmodel.thirdCurrencySymbol, currencyName: viewmodel.thirdCurrency, amount: viewmodel.thirdCurrencyRate)
-                SecondaryCurrencyView(isLoading: $viewmodel.isLoading, currencyIcon: viewmodel.fourthCurrencySymbol, currencyName: viewmodel.fourthCurrency, amount: viewmodel.fourthCurrencyRate)
+                //                SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.secondCurrencySymbol, currencyName: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate)
+                SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.thirdCurrencySymbol, currencyName: viewModel.thirdCurrency, amount: viewModel.thirdCurrencyRate)
+                SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.fourthCurrencySymbol, currencyName: viewModel.fourthCurrency, amount: viewModel.fourthCurrencyRate)
                 
                 
                 Button {
-                    viewmodel.isLoading = true
-                    viewmodel.fetchExchangeRate()
-                    
-                    print("Base Currency: \(viewmodel.baseCurrencyAmount) \(viewmodel.baseCurrency)")
-                    print(viewmodel.exchangeRate ?? "Failed. Something's wrong.")
-                    
+                    viewModel.isLoading = true
+                    viewModel.fetchExchangeRate()
+                    viewModel.fetchSymbols()
                 } label: {
                     Text("Refresh Rates")
                         .font(.body)
@@ -79,13 +93,13 @@ struct ContentView: View {
                 
                 
                 HStack{
-                    smallCurrencyView(currency: viewmodel.baseCurrency, amount: 1, fontSize: 30)
+                    smallCurrencyView(currency: viewModel.baseCurrency, amount: 1, fontSize: 30)
                     Spacer()
                     
-                    VStack{ // Find a better solution  to display the base rates
-                        smallCurrencyView(currency: viewmodel.secondCurrency, amount: viewmodel.secondCurrencyRate / viewmodel.baseCurrencyAmount, fontSize: 20)
-                        smallCurrencyView(currency: viewmodel.thirdCurrency, amount: viewmodel.thirdCurrencyRate / viewmodel.baseCurrencyAmount, fontSize: 20)
-                        smallCurrencyView(currency: viewmodel.fourthCurrency, amount: viewmodel.fourthCurrencyRate / viewmodel.baseCurrencyAmount, fontSize: 20)
+                    VStack{ // Find a better solution to display the base rates
+                        smallCurrencyView(currency: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
+                        smallCurrencyView(currency: viewModel.thirdCurrency, amount: viewModel.thirdCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
+                        smallCurrencyView(currency: viewModel.fourthCurrency, amount: viewModel.fourthCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
                     }
                 }
                 .foregroundColor(.white)
@@ -122,8 +136,9 @@ struct ContentView: View {
                 
             }
         }.onAppear {// NO LONGER FETCHING DATA ON LAUNCH FOR TESTING PURPOSES!!!
-            print("On launch, Base Currency: \(viewmodel.baseCurrency)")
-            viewmodel.fetchSymbols()
+            print("On launch, Base Currency: \(viewModel.baseCurrency)")
+            viewModel.fetchSymbols()
+            viewModel.baseCurrencySelection = viewModel.baseCurrency
         }
     }
 }
@@ -196,6 +211,6 @@ struct SecondaryCurrencyView: View{ // Smaller Currencies
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        CurrencyConverterMainView()
     }
 }
