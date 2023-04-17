@@ -16,26 +16,23 @@ struct CurrencyConverterMainView: View {
             
             VStack {
                 VStack {
-                    HStack{//Top Icons - No functionality yet
-                        Image(systemName: "person")
+                    
                         Spacer()
-                        Image(systemName: "directcurrent")
+                    Text("Currency Converter").font(.title).foregroundColor(.white)
                         Spacer()
-                        Image(systemName: "gear")
-                    }.padding(.horizontal, 15)
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
+                        
+                   
                     Spacer()
                     VStack{// Main Currency View.
                         HStack{
-                            Text(viewModel.baseCurrencySymbol).padding(.leading, 20).font(.largeTitle)
+                            Text(viewModel.baseCurrencySymbol).padding(.leading, 20).font(.largeTitle).foregroundColor(.white)
                             
                             VStack {
                                 TextField("How much?", value: $viewModel.baseCurrencyAmount, formatter: NumberFormatter())
                                     .font(.custom("baseCurrency", size: 50))
                                     .multilineTextAlignment(.center)
                                     .foregroundColor(.white)
-                                    .shadow(color: .red, radius: 1, x: 2, y:2)
+                                    .shadow(color: .black, radius: 1, x: 2, y:2)
                                     .onSubmit {
                                         viewModel.fetchExchangeRate()
                                     }
@@ -45,7 +42,7 @@ struct CurrencyConverterMainView: View {
                             
                             
                             Image(systemName: "arrowtriangle.down")
-                                .font(.title2).padding(.trailing, 20)
+                                .font(.title2).padding(.trailing, 20).foregroundColor(.white)
                             
                             
                         }
@@ -65,14 +62,14 @@ struct CurrencyConverterMainView: View {
                                 viewModel.fetchExchangeRate()
                                 viewModel.fetchSymbols()
                             }
-                    }.foregroundColor(.white)
+                    }
                     
                         .fontWeight(.light)
                     
                 }
                 .frame(minHeight: 80, maxHeight: 230)
                 .background(
-                    LinearGradient(gradient: Gradient(colors: [.indigo.opacity(1)]), startPoint: .top, endPoint: .bottom)
+                    LinearGradient(gradient: Gradient(colors: [Color("AccentColor2").opacity(1)]), startPoint: .top, endPoint: .bottom)
                 )
                 
                 
@@ -112,7 +109,7 @@ struct CurrencyConverterMainView: View {
                 .font(.largeTitle)
                 .fontWeight(.light)
                 .frame(width: 370, height: 110)
-                .background(.white.opacity(0.05))
+                .background(.white.opacity(0.08))
                 .cornerRadius(30)
                 
                 
@@ -199,7 +196,7 @@ struct SecondaryCurrencyView: View{ // Smaller Currencies
         .background(
             LinearGradient(
                 gradient: Gradient(stops: [
-                    .init(color: Color.white.opacity(0.05), location: 0),
+                    .init(color: Color.white.opacity(0.1), location: 0),
                     .init(color: Color.white.opacity(0), location: 1)
                 ]),
                 startPoint: .leading,
@@ -216,6 +213,6 @@ struct SecondaryCurrencyView: View{ // Smaller Currencies
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrencyConverterMainView()
+        CurrencyConverterMainView().preferredColorScheme(.dark)
     }
 }
