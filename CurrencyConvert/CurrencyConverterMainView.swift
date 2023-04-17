@@ -59,6 +59,7 @@ struct CurrencyConverterMainView: View {
                             }
                         }.padding(.bottom, 10)
                             .onChange(of: viewModel.baseCurrencySelection) { newValue in
+                                viewModel.currencyChanged = true
                                 viewModel.baseCurrency = newValue
                                 viewModel.isLoading = true
                                 viewModel.fetchExchangeRate()
@@ -139,7 +140,7 @@ struct CurrencyConverterMainView: View {
                 //                .cornerRadius(30)
                 
             }
-        }.onAppear {// NO LONGER FETCHING DATA ON LAUNCH FOR TESTING PURPOSES!!!
+        }.onAppear {
             print("On launch, Base Currency: \(viewModel.baseCurrency)")
             viewModel.fetchSymbols()
             viewModel.baseCurrencySelection = viewModel.baseCurrency

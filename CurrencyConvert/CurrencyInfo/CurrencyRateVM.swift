@@ -10,6 +10,7 @@ class ExchangeRateViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var allCurrencies: [Currency] = []
     @Published var baseCurrencySelection: String = ""
+    @Published var currencyChanged: Bool = false
     var lastUpdate: Date? = nil
     
     @ObservedObject var currencyData = CurrencyData()
@@ -82,8 +83,7 @@ class ExchangeRateViewModel: ObservableObject {
         guard let url = URL(string: "https://api.freecurrencyapi.com/v1/latest?apikey=\(apiKey)&currencies=\(currencies)&base_currency=\(baseCurrency)") else {
             fatalError("Invalid URL")
         }
-        
-        if let lastUpdate = lastUpdate, Date().timeIntervalSince(lastUpdate) < 3600 {
+        if let lastUpdate = lastUpdate, Date().timeIntervalSince(lastUpdate) < 3600, !currencyChanged{
             self.currencyUpdate()
             print(self.lastUpdate ?? "no last update found")
             print("No new network call")
@@ -100,6 +100,7 @@ class ExchangeRateViewModel: ObservableObject {
                         self.exchangeRate = exchangeRate
                         self.lastUpdate = Date()
                         self.currencyUpdate()
+                        self.currencyChanged = false
                     }
                 }
             }
