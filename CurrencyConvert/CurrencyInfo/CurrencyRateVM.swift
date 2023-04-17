@@ -10,6 +10,7 @@ class ExchangeRateViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var allCurrencies: [Currency] = []
     @Published var baseCurrencySelection: String = ""
+    var lastUpdate: Date? = nil
     
     @ObservedObject var currencyData = CurrencyData()
     //Still not elegant at all
@@ -76,37 +77,52 @@ class ExchangeRateViewModel: ObservableObject {
     let apiKey = ""
     
     func fetchExchangeRate() {
+        
         let currencies = "\(secondCurrency)%2C\(thirdCurrency)%2C\(fourthCurrency)"
         guard let url = URL(string: "https://api.freecurrencyapi.com/v1/latest?apikey=\(apiKey)&currencies=\(currencies)&base_currency=\(baseCurrency)") else {
             fatalError("Invalid URL")
         }
         
+        if let lastUpdate = lastUpdate, Date().timeIntervalSince(lastUpdate) < 3600 {
+            self.currencyUpdate()
+            print(self.lastUpdate ?? "no last update found")
+            print("No new network call")
+                return
+            }
+
+        
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 let decoder = JSONDecoder()
-                
                 if let exchangeRate = try? decoder.decode(ExchangeRate.self, from: data) {
                     DispatchQueue.main.async {
+                        print("Did another network call")
                         self.exchangeRate = exchangeRate
-                        
-                        if let secondCurrencyRate = exchangeRate.data[self.secondCurrency] {
-                            self.secondCurrencyRate = self.baseCurrencyAmount * secondCurrencyRate
-                        }
-                        if let thirdCurrencyRate = exchangeRate.data[self.thirdCurrency] {
-                            self.thirdCurrencyRate = self.baseCurrencyAmount * thirdCurrencyRate
-                        }
-                        if let fourthCurrencyRate = exchangeRate.data[self.fourthCurrency] {
-                            self.fourthCurrencyRate = self.baseCurrencyAmount * fourthCurrencyRate
-                        }
-                        self.baseCurrencySelection = self.baseCurrency
-                        print("Base Currency: \(self.baseCurrencyAmount) \(self.baseCurrency)")
-                        print(self.exchangeRate ?? "Failed")
-                        self.isLoading = false
+                        self.lastUpdate = Date()
+                        self.currencyUpdate()
                     }
                 }
             }
         }.resume()
         
+    }
+    
+    func currencyUpdate(){
+        
+        print(self.lastUpdate ?? "fail")
+        if let secondCurrencyRate = exchangeRate?.data[self.secondCurrency] {
+            self.secondCurrencyRate = self.baseCurrencyAmount * secondCurrencyRate
+        }
+        if let thirdCurrencyRate = exchangeRate?.data[self.thirdCurrency] {
+            self.thirdCurrencyRate = self.baseCurrencyAmount * thirdCurrencyRate
+        }
+        if let fourthCurrencyRate = exchangeRate?.data[self.fourthCurrency] {
+            self.fourthCurrencyRate = self.baseCurrencyAmount * fourthCurrencyRate
+        }
+        self.baseCurrencySelection = self.baseCurrency
+        print("Base Currency: \(self.baseCurrencyAmount) \(self.baseCurrency)")
+        print(self.exchangeRate ?? "Failed")
+        self.isLoading = false
     }
     
     func fetchSymbols() {

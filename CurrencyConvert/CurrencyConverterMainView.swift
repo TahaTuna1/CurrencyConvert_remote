@@ -22,73 +22,77 @@ struct CurrencyConverterMainView: View {
                         Image(systemName: "directcurrent")
                         Spacer()
                         Image(systemName: "gear")
-                    }.padding(10)
-                        .font(.largeTitle).foregroundColor(.white)
-                    
+                    }.padding(.horizontal, 15)
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                    Spacer()
                     VStack{// Main Currency View.
                         HStack{
-                            Text(viewModel.baseCurrencySymbol)
-                            Spacer()
-                            TextField("How much?", value: $viewModel.baseCurrencyAmount, formatter: NumberFormatter())
-                                .font(.custom("baseCurrency", size: 50))
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.white)
-                                .shadow(color: .red, radius: 1, x: 2, y:2)
-                            
-                            Spacer()
+                            Text(viewModel.baseCurrencySymbol).padding(.leading, 20).font(.largeTitle)
                             
                             VStack {
-                                Image(systemName: "arrowtriangle.down")
-                                    .font(.title2)
+                                TextField("How much?", value: $viewModel.baseCurrencyAmount, formatter: NumberFormatter())
+                                    .font(.custom("baseCurrency", size: 50))
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                                    .shadow(color: .red, radius: 1, x: 2, y:2)
+                                    .onSubmit {
+                                        viewModel.fetchExchangeRate()
+                                    }
                             }
+                            
+                            
+                            
+                            
+                            Image(systemName: "arrowtriangle.down")
+                                .font(.title2).padding(.trailing, 20)
+                            
+                            
                         }
-                        Text(viewModel.baseCurrency)
-                            .font(.title3).foregroundColor(.gray)
+                        //Picker
+                        Group {
+                            
+                            Picker("", selection: $viewModel.baseCurrencySelection) {
+                                ForEach(viewModel.allCurrencies, id: \.code) { currency in
+                                    Text("\(currency.symbolNative) - \(currency.code)")
+                                }
+                            }
+                        }.padding(.bottom, 10)
+                            .onChange(of: viewModel.baseCurrencySelection) { newValue in
+                                viewModel.baseCurrency = newValue
+                                viewModel.isLoading = true
+                                viewModel.fetchExchangeRate()
+                                viewModel.fetchSymbols()
+                            }
                     }.foregroundColor(.white)
-                        .font(.largeTitle)
-                        .padding(30)
+                    
                         .fontWeight(.light)
+                    
                 }
-                .frame(minHeight: 80, maxHeight: 200)
+                .frame(minHeight: 80, maxHeight: 230)
                 .background(
                     LinearGradient(gradient: Gradient(colors: [.indigo.opacity(1)]), startPoint: .top, endPoint: .bottom)
                 )
                 
-                //Picker
-                Group {
-                    
-                    Picker("Choose a Currency", selection: $viewModel.baseCurrencySelection) {
-                        ForEach(viewModel.allCurrencies, id: \.code) { currency in
-                            Text("\(currency.symbolNative) - \(currency.code)")
-                        }
-                    }
-                }
-                .onChange(of: viewModel.baseCurrencySelection) { newValue in
-                    viewModel.baseCurrency = newValue
-                    viewModel.isLoading = true
-                    viewModel.fetchExchangeRate()
-                    viewModel.fetchSymbols()
-                }
                 
                 
-                
-                //                SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.secondCurrencySymbol, currencyName: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate)
+                SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.secondCurrencySymbol, currencyName: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate)
                 SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.thirdCurrencySymbol, currencyName: viewModel.thirdCurrency, amount: viewModel.thirdCurrencyRate)
                 SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.fourthCurrencySymbol, currencyName: viewModel.fourthCurrency, amount: viewModel.fourthCurrencyRate)
                 
                 
-                Button {
-                    viewModel.isLoading = true
-                    viewModel.fetchExchangeRate()
-                    viewModel.fetchSymbols()
-                } label: {
-                    Text("Refresh Rates")
-                        .font(.body)
-                        .foregroundColor(.white)
-                        .frame(width: 190, height: 40)
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
-                }
+                //                Button {
+                //                    viewModel.isLoading = true
+                //                    viewModel.fetchExchangeRate()
+                //                    viewModel.fetchSymbols()
+                //                } label: {
+                //                    Text("Refresh Rates")
+                //                        .font(.body)
+                //                        .foregroundColor(.white)
+                //                        .frame(width: 190, height: 40)
+                //                        .background(Color.blue.opacity(0.1))
+                //                        .cornerRadius(radius: 40, corners: [.bottomLeft, .topRight])
+                //                }
                 
                 
                 
