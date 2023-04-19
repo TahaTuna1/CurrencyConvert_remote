@@ -22,6 +22,10 @@ Here are some of the missing features:
 
 ![Picker](https://user-images.githubusercontent.com/119931873/232621278-463495ec-79d0-48f4-bc8a-44954784cc5f.png)
 
-![CurrencyView2](https://user-images.githubusercontent.com/119931873/232621317-9757980d-c39c-4798-95e2-f6edf7aec199.png)
-
 ![AccountViewSS](https://user-images.githubusercontent.com/119931873/232621351-a3b0d17a-9685-42e6-8ffa-a46a8673b32d.png)
+
+- Added Basic Graph
+
+![Graph](https://user-images.githubusercontent.com/119931873/232938492-4318b203-a88f-4782-8862-f0ec662a71d2.jpg)
+
+
