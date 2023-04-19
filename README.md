@@ -24,8 +24,6 @@ Here are some of the missing features:
 
 ![AccountViewSS](https://user-images.githubusercontent.com/119931873/232621351-a3b0d17a-9685-42e6-8ffa-a46a8673b32d.png)
 
-- Added Basic Graph
+- Added Basic Graph with 30-day history.
 
-![Graph](https://user-images.githubusercontent.com/119931873/232938492-4318b203-a88f-4782-8862-f0ec662a71d2.jpg)
-
-
+![CurrencyViewGraph](https://user-images.githubusercontent.com/119931873/233222777-0cb7571d-d633-4e6d-965c-16de46e319c5.png)
