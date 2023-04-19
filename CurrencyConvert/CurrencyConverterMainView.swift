@@ -72,7 +72,7 @@ struct CurrencyConverterMainView: View {
                     LinearGradient(gradient: Gradient(colors: [Color("AccentColor2").opacity(1)]), startPoint: .top, endPoint: .bottom)
                 )
                 
-                
+                 
                 
                 SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.secondCurrencySymbol, currencyName: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate)
                 SecondaryCurrencyView(isLoading: $viewModel.isLoading, currencyIcon: viewModel.thirdCurrencySymbol, currencyName: viewModel.thirdCurrency, amount: viewModel.thirdCurrencyRate)
@@ -94,47 +94,38 @@ struct CurrencyConverterMainView: View {
                 
                 
                 
-                HStack{
-                    smallCurrencyView(currency: viewModel.baseCurrency, amount: 1, fontSize: 30)
-                    Spacer()
-                    
-                    VStack{ // Find a better solution to display the base rates
-                        smallCurrencyView(currency: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
-                        smallCurrencyView(currency: viewModel.thirdCurrency, amount: viewModel.thirdCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
-                        smallCurrencyView(currency: viewModel.fourthCurrency, amount: viewModel.fourthCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
-                    }
-                }
-                .foregroundColor(.white)
-                .padding(35)
-                .font(.largeTitle)
-                .fontWeight(.light)
-                .frame(width: 370, height: 110)
-                .background(.white.opacity(0.08))
-                .cornerRadius(30)
                 
                 
-                // Graph. Commented until further notice
-                //                VStack {
-                //                    Text("$ USD - Euro €").foregroundColor(.gray).padding(.top, 10)
-                //                    Spacer()
-                //                    Image("graphPlaceHolder")
-                //                        .resizable()
-                //                        .aspectRatio(contentMode: .fit)
-                //                        .padding(.bottom, 40)
-                //
-                //                }
-                //                .frame(minWidth: 300, maxWidth: 370, minHeight: 100, maxHeight: 170)
-                //                .background(
-                //                    LinearGradient(
-                //                        gradient: Gradient(stops: [
-                //                            .init(color: Color.white.opacity(0.05), location: 0),
-                //                            .init(color: Color.white.opacity(0), location: 1)
-                //                        ]),
-                //                        startPoint: .leading,
-                //                        endPoint: .trailing
-                //                    )
-                //                )
-                //                .cornerRadius(30)
+                
+                
+                
+//                HStack{
+//                    smallCurrencyView(currency: viewModel.baseCurrency, amount: 1, fontSize: 30)
+//                    Spacer()
+//
+//                    VStack{ // Find a better solution to display the base rates
+//                        smallCurrencyView(currency: viewModel.secondCurrency, amount: viewModel.secondCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
+//                        smallCurrencyView(currency: viewModel.thirdCurrency, amount: viewModel.thirdCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
+//                        smallCurrencyView(currency: viewModel.fourthCurrency, amount: viewModel.fourthCurrencyRate / viewModel.baseCurrencyAmount, fontSize: 20)
+//                    }
+//                }
+//                .foregroundColor(.white)
+//                .padding(35)
+//                .font(.largeTitle)
+//                .fontWeight(.light)
+//                .frame(width: 370, height: 110)
+//                .background(.white.opacity(0.08))
+//                .cornerRadius(30)
+//
+                
+                
+                
+                 
+                                VStack {
+                                    
+                                    GraphView()
+                
+                                }
                 
             }
         }.onAppear {

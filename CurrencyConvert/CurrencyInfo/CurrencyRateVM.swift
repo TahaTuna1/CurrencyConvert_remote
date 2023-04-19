@@ -13,6 +13,7 @@ class ExchangeRateViewModel: ObservableObject {
     @Published var currencyChanged: Bool = false
     var lastUpdate: Date? = nil
     
+    
     @ObservedObject var currencyData = CurrencyData()
     //Still not elegant at all
     var baseCurrency: String {
@@ -105,7 +106,6 @@ class ExchangeRateViewModel: ObservableObject {
                 }
             }
         }.resume()
-        
     }
     
     func currencyUpdate(){

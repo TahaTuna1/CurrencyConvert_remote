@@ -24,6 +24,9 @@
 		55CE8BFE29E88F5B003E9274 /* RounderCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CE8BFD29E88F5B003E9274 /* RounderCorner.swift */; };
 		55D9036B29EBBBCA00CDF78D /* SymbolModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D9036A29EBBBCA00CDF78D /* SymbolModel.swift */; };
 		55D9036F29EBC54B00CDF78D /* currencyInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 55D9036E29EBC54B00CDF78D /* currencyInfo.json */; };
+		55F581C129EF37A5004D54C0 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F581C029EF37A5004D54C0 /* GraphView.swift */; };
+		55F581C529EF396B004D54C0 /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F581C429EF396B004D54C0 /* GraphModel.swift */; };
+		55F581C729EF3972004D54C0 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55F581C629EF3972004D54C0 /* GraphViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +48,9 @@
 		55CE8BFD29E88F5B003E9274 /* RounderCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RounderCorner.swift; sourceTree = "<group>"; };
 		55D9036A29EBBBCA00CDF78D /* SymbolModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolModel.swift; sourceTree = "<group>"; };
 		55D9036E29EBC54B00CDF78D /* currencyInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = currencyInfo.json; sourceTree = "<group>"; };
+		55F581C029EF37A5004D54C0 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		55F581C429EF396B004D54C0 /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
+		55F581C629EF3972004D54C0 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,7 @@
 		55CE8BEE29E88486003E9274 /* CurrencyConvert */ = {
 			isa = PBXGroup;
 			children = (
+				55F581BF29EF378B004D54C0 /* New Group */,
 				554C0DDA29EDD95C00425D84 /* AccountView */,
 				55D9037029EBD26E00CDF78D /* Utilities */,
 				55D9036929EBBBB500CDF78D /* CurrencyInfo */,
@@ -128,6 +135,16 @@
 				55CE8BFD29E88F5B003E9274 /* RounderCorner.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		55F581BF29EF378B004D54C0 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				55F581C029EF37A5004D54C0 /* GraphView.swift */,
+				55F581C429EF396B004D54C0 /* GraphModel.swift */,
+				55F581C629EF3972004D54C0 /* GraphViewModel.swift */,
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,14 +223,17 @@
 				554C0DE629EDDABF00425D84 /* Date+Ext.swift in Sources */,
 				55C8579C29E9E51E000D0CFC /* CurrencyRateVM.swift in Sources */,
 				55C8579A29E9E50F000D0CFC /* CurrencyRateModel.swift in Sources */,
+				55F581C129EF37A5004D54C0 /* GraphView.swift in Sources */,
 				554C0DDE29EDD97300425D84 /* AccountViewModel.swift in Sources */,
 				554C0DDC29EDD96C00425D84 /* AccountView.swift in Sources */,
 				554C0DE429EDDA4A00425D84 /* String+Ext.swift in Sources */,
+				55F581C729EF3972004D54C0 /* GraphViewModel.swift in Sources */,
 				55CE8BF029E88486003E9274 /* CurrencyConvertApp.swift in Sources */,
 				55D9036B29EBBBCA00CDF78D /* SymbolModel.swift in Sources */,
 				554C0DE229EDD9D500425D84 /* Alert.swift in Sources */,
 				554C0DE829EDDD8100425D84 /* ConverterNavView.swift in Sources */,
 				554C0DE029EDD9A400425D84 /* User.swift in Sources */,
+				55F581C529EF396B004D54C0 /* GraphModel.swift in Sources */,
 				5544613B29EB520C0082FB96 /* LoadingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
