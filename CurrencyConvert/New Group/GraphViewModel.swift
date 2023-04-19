@@ -6,10 +6,23 @@ import SwiftUI
 class GraphViewModel: ObservableObject{
     @Published var dateRates: [Date: Double] = [:]
     
-     func parseCurrencyData() {
+    
+    @Published var graphCurrencyFrom: String = "GBP" // Defaults. Create a way to change them.
+    @Published var graphCurrencyTo: String = "EUR"
+    
+    func parseCurrencyData() {
         let apiKey = ""
         
-        let urlString = "https://api.freecurrencyapi.com/v1/historical?apikey=\(apiKey)&currencies=EUR&base_currency=GBP&date_from=2022-04-17T17%3A37%3A39.583Z&date_to=2023-04-17T17%3A37%3A39.584Z"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let today = Date()
+        let yesterday = Calendar.current.date(byAdding: .day, value: -2, to: today)!
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: today)!
+        let dateToString: (Date) -> String = { date in
+            dateFormatter.string(from: date) + "00%3A00%3A00.000"
+        }
+        let urlString = "https://api.freecurrencyapi.com/v1/historical?apikey=\(apiKey)&currencies=\(graphCurrencyTo)&base_currency=\(graphCurrencyFrom)&date_from=\(dateToString(thirtyDaysAgo))&date_to=\(dateToString(yesterday))"
+        print(urlString)
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL.")
@@ -40,7 +53,7 @@ class GraphViewModel: ObservableObject{
                         }
                     }
                 }
-
+                
             } catch {
                 print("Error decoding JSON: \(error)")
             }

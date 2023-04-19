@@ -11,11 +11,14 @@ struct GraphView: View {
     
     @State var isButtonVisible = true // Put it in the viewmodel
     
+    var graphCurrencyFrom: String // Does nothing now. Create a way to change graph currencies.
+    var graphCurrencyTo: String
+    
     var body: some View {
         VStack(alignment: .leading){
             
             
-            Text("GBP - EUR")
+            Text("\(viewModel.graphCurrencyFrom) - \(viewModel.graphCurrencyTo)")
                 .foregroundColor(.white)
                 .font(.caption)
                 .padding(.horizontal, 20)
@@ -28,13 +31,13 @@ struct GraphView: View {
                 
                 Chart {
                     ForEach(Array(currencyData.keys).sorted(), id: \.self) { date in
-                        LineMark(
-                            x: .value("Date", date, unit: .day),
-                            y: .value("EUR", currencyData[date]!)
-                        )
+                            LineMark(
+                                x: .value("Date", date, unit: .day),
+                                y: .value("EUR", currencyData[date]!)
+                            )
                     }
                 }
-                .frame(height: 120)
+                .frame(height: 100)
                 .foregroundColor(Color("AccentColor2"))
                 .chartXAxis {
                     AxisMarks(values: Array(currencyData.keys).sorted()) { date in
@@ -42,8 +45,11 @@ struct GraphView: View {
                     }
                 }
                 .chartYAxis {
-                    AxisMarks()
+                  AxisMarks(values: .automatic) { _ in
+                    AxisValueLabel()
+                  }
                 }
+                .chartYScale(domain: 1.10...1.15) // Make this auto
                 
                 Button(action: {
                     viewModel.parseCurrencyData()
@@ -71,6 +77,6 @@ struct GraphView: View {
 
 struct GraphView_Previews: PreviewProvider {
     static var previews: some View {
-        GraphView().preferredColorScheme(.dark)
+        GraphView(graphCurrencyFrom: "EUR", graphCurrencyTo: "GBP").preferredColorScheme(.dark)
     }
 }

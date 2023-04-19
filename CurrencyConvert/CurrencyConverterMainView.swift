@@ -123,7 +123,7 @@ struct CurrencyConverterMainView: View {
                  
                                 VStack {
                                     
-                                    GraphView()
+                                    GraphView(graphCurrencyFrom: "EUR", graphCurrencyTo: "GBP")
                 
                                 }
                 
@@ -180,10 +180,10 @@ struct SecondaryCurrencyView: View{ // Smaller Currencies
             
         }
         .foregroundColor(.white)
-        .padding(35)
+        .padding(25)
         .font(.largeTitle)
         .fontWeight(.light)
-        .frame(width: 370, height: 110)
+        .frame(width: 370, height: 100)
         .background(
             LinearGradient(
                 gradient: Gradient(stops: [

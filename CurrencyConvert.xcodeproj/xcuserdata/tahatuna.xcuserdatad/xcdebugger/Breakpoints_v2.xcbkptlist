@@ -14,8 +14,71 @@
             filePath = "CurrencyConvert/CurrencyConverterMainView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210">
+            startingLineNumber = "227"
+            endingLineNumber = "227">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A88EE4C2-01AE-43AA-BC16-72849E32B234"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CurrencyConvert/CurrencyInfo/CurrencyRateVM.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "fetchExchangeRate()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A88EE4C2-01AE-43AA-BC16-72849E32B234 - 88623161ba1d2de2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyConvert.ExchangeRateViewModel.fetchExchangeRate() -&gt; ()"
+                  moduleName = "CurrencyConvert"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tahatuna/Desktop/Dev/CurrencyConverter/CurrencyConvert/CurrencyConvert/CurrencyInfo/CurrencyRateVM.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "1764">
+               </Location>
+               <Location
+                  uuid = "A88EE4C2-01AE-43AA-BC16-72849E32B234 - 88623161ba1d2ac9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyConvert.ExchangeRateViewModel.fetchExchangeRate() -&gt; ()"
+                  moduleName = "CurrencyConvert"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tahatuna/Desktop/Dev/CurrencyConverter/CurrencyConvert/CurrencyConvert/CurrencyInfo/CurrencyRateVM.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "97"
+                  endingLineNumber = "97"
+                  offsetFromSymbolStart = "2916">
+               </Location>
+               <Location
+                  uuid = "A88EE4C2-01AE-43AA-BC16-72849E32B234 - 88623161ba1d2b28"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CurrencyConvert.ExchangeRateViewModel.fetchExchangeRate() -&gt; ()"
+                  moduleName = "CurrencyConvert"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/tahatuna/Desktop/Dev/CurrencyConverter/CurrencyConvert/CurrencyConvert/CurrencyInfo/CurrencyRateVM.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "98"
+                  endingLineNumber = "98"
+                  offsetFromSymbolStart = "2924">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
