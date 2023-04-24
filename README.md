@@ -1,4 +1,4 @@
-# Currency conversion app for personal use.
+# Currency conversion app. Portfolio Piece / Practice Ground
 - From the beginning, I've been treating this app as a practice playground. I've tried lots of things along with the main features I wanted to implement. Outside additional improvements and some main features, I don't intend to update the app.
 
 # Features
