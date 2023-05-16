@@ -9,6 +9,8 @@
 - Charts
 - NavigationView
 
+![Converter1](https://github.com/TahaTuna1/CurrencyConvert_remote/assets/119931873/aa2e1c87-50ba-46cc-b51a-089b6143c7e6)
+
 
 ![Screenshot 2023-04-13 at 20 05 43](https://user-images.githubusercontent.com/119931873/231872100-d29b80c9-64df-4aae-9079-5137941a95b4.jpg)
 
